@@ -57,12 +57,17 @@
 000000         DISPLAY ' Input value (1 to 5 digits) : '
 000000         WITH NO ADVANCING
 000000         ACCEPT WS-RAW-DATA
-000000         PERFORM CBV0001-CAS-NUL
+000000         IF CST-LOOP-FLG = 'Y'
+000000             PERFORM CBV0001-CAS-NUL
+000000             PERFORM CBV0001-DISP-RESULT
+000000         END-IF
 000000         IF CST-LOOP-FLG = 'Y'
 000000             PERFORM CBV0001-CAS-LEN
+000000             PERFORM CBV0001-DISP-RESULT
 000000         END-IF
 000000         IF CST-LOOP-FLG = 'Y'
 000000             PERFORM CBV0001-CAS-NUM
+000000             PERFORM CBV0001-DISP-RESULT
 000000         END-IF
 000000     END-PERFORM.
 000000     PERFORM CBV0001-DISP-RESULT.
@@ -85,7 +90,6 @@
 000000     IF FUNCTION TRIM(WS-RAW-DATA) = SPACES
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-NUL         TO TRUE
-000000         PERFORM CBV0001-DISP-RESULT
 000000     END-IF.
 000000     EXIT.
 000000*/-------------------------------------------------------------/*
@@ -102,7 +106,6 @@
 000000     OR WS-LEN > CST-MAX-LENGTH
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-LEN         TO TRUE
-000000         PERFORM CBV0001-DISP-RESULT
 000000     ELSE
 000000         MOVE WS-RAW-DATA(1:CST-MAX-LENGTH)
 000000                                 TO 
@@ -133,7 +136,6 @@
 000000     ELSE
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-NUM         TO TRUE
-000000         PERFORM CBV0001-DISP-RESULT
 000000     END-IF.
 000000     EXIT.
 000000*/-------------------------------------------------------------/*
