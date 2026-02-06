@@ -21,17 +21,19 @@
 000000*===============================================================* 
 000000 PROCEDURE                       DIVISION.
 000000*/-------------------------------------------------------------/*
-000000* [MODULE] CBV0001-CTL-MAIN
-000000* [ NOTE ] メイン処理（入力制御・VALIDATE 呼出）
+000000* MODULE   : CBV0001-CTL-MAIN
+000000* OVERVIEW : メイン処理
+000000*            入力受付
+000000*            入力チェック処理呼出
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CTL-MAIN.
 000000     PERFORM UNTIL CST-LOOP-FLG = 'Y'
 000000         MOVE 'Y'                TO CST-LOOP-FLG
 000000         DISPLAY '*/-----------------------------------/*'
-000000         DISPLAY ' [PROGRAM] CBV0001 '
-000000         DISPLAY ' [PROCESS] INPUT VALIDATION '
+000000         DISPLAY ' PROGRAM - CBV0001 '
+000000         DISPLAY ' PROCESS - INPUT VALIDATION '
 000000         DISPLAY '*/-----------------------------------/*'
-000000         DISPLAY ' [INPUT] Numeric field (Max 5 digits) '
+000000         DISPLAY ' INPUT - Numeric field (Max 5 digits) '
 000000         DISPLAY '*/-----------------------------------/*'
 000000         ACCEPT WS-DATA
 000000         PERFORM CBV0001-CAS-NUL
@@ -43,35 +45,36 @@
 000000         END-IF
 000000     END-PERFORM.
 000000     DISPLAY '*/--------------------------------/*'
-000000     DISPLAY ' [RESULT] PASS VALIDATION '
-000000     DISPLAY ' [VALUE] ' WS-NUM-VALUE
+000000     DISPLAY ' RESULT - PASS VALIDATION '
+000000     DISPLAY ' VALUE - ' WS-NUM-VALUE
 000000     DISPLAY '*/--------------------------------/*'
 000000     STOP RUN.
 000000*/-------------------------------------------------------------/*
-000000* [MODULE] CBV0001-INIT-WS
-000000* [ NOTE ] ワーク変数初期化（WS クリア処理）
+000000* MODULE   : CBV0001-INIT-WS
+000000* OVERVIEW : ワーク変数初期化処理
+000000*            作業領域初期化
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-INIT-WS.
 000000     INITIALIZE WS-VARIABLES.
 000000     EXIT.
 000000*/-------------------------------------------------------------/*
-000000* [MODULE] CBV0001-CAS-NUL
-000000* [ CASE ] CASE-NUL
-000000* [ NOTE ] NULL／BLANK チェック
+000000* MODULE   : CBV0001-CAS-NUL
+000000* OVERVIEW : 未入力チェック処理
+000000*            入力値空白判定
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-NUL.
 000000     IF WS-DATA = SPACES
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         DISPLAY '*/-----------------------------------/*'
-000000         DISPLAY ' [RESULT] NG '
-000000         DISPLAY ' [ERROR] INPUT CANNOT BE BLANK '
+000000         DISPLAY ' RESULT - ERROR '
+000000         DISPLAY ' MESSAGE - INPUT CANNOT BE BLANK '
 000000         DISPLAY '*/-----------------------------------/*'
 000000     END-IF.
 000000     EXIT.
 000000*/-------------------------------------------------------------/*
-000000* [MODULE] CBV0001-CAS-LEN
-000000* [ CASE ] CASE-LEN
-000000* [ NOTE ] 桁数チェック（TRIM後 1～5 桁）
+000000* MODULE   : CBV0001-CAS-LEN
+000000* OVERVIEW : 桁数チェック処理
+000000*            入力値桁数判定（1～5桁）
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-LEN.
 000000     COMPUTE WS-LEN = FUNCTION LENGTH(
@@ -81,15 +84,15 @@
 000000        WS-LEN > 5
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         DISPLAY '*/-----------------------------------/*'
-000000         DISPLAY ' [RESULT] NG '
-000000         DISPLAY ' [ERROR] LENGTH MUST BE 1 TO 5 DIGITS '
+000000         DISPLAY ' RESULT - ERROR '
+000000         DISPLAY ' MESSAGE - LENGTH MUST BE 1 TO 5 DIGITS '
 000000         DISPLAY '*/-----------------------------------/*'
 000000     END-IF.
 000000     EXIT.
 000000*/-------------------------------------------------------------/*
-000000* [MODULE] CBV0001-CAS-NUM
-000000* [ CASE ] CASE-NUM
-000000* [ NOTE ] 数値チェック（0～9 のみ）
+000000* MODULE   : CBV0001-CAS-NUM
+000000* OVERVIEW : 数値チェック処理
+000000*            数値のみ入力判定
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-NUM.
 000000     MOVE WS-DATA                TO WS-TEMP
@@ -109,8 +112,8 @@
 000000     ELSE
 000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         DISPLAY '*/-----------------------------------/*'
-000000         DISPLAY ' [RESULT] NG '
-000000         DISPLAY ' [ERROR] INPUT IS NOT NUMERIC '
+000000         DISPLAY ' RESULT - ERROR '
+000000         DISPLAY ' MESSAGE - INPUT IS NOT NUMERIC '
 000000         DISPLAY '*/-----------------------------------/*'
 000000     END-IF.
 000000     EXIT.
