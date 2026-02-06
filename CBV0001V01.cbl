@@ -37,7 +37,7 @@
 000000    03 CST-LOOP-FLG              PIC X(01) VALUE 'N'.
 000000    03 CST-MIN-LENGTH            PIC 9(02) VALUE 1.
 000000    03 CST-MAX-LENGTH            PIC 9(02) VALUE 5.
-000000    03 CST-RESULT-CODE           PIC 9(01) VALUE 0.
+000000    03 CST-RESULT-CODE           PIC 9(01).
 000000       88 CST-SUCCESS                      VALUE 0.
 000000       88 CST-ERR-NUL                      VALUE 1.
 000000       88 CST-ERR-LEN                      VALUE 2.
@@ -53,7 +53,7 @@
 000000 CBV0001-CTL-MAIN.
 000000     PERFORM UNTIL CST-LOOP-FLG = 'Y'
 000000         MOVE 'Y'                TO CST-LOOP-FLG
-000000         MOVE 0                  TO CST-RESULT-CODE
+000000         SET CST-SUCCESS         TO TRUE
 000000         DISPLAY ' Input value (1 to 5 digits) : '
 000000         WITH NO ADVANCING
 000000         ACCEPT WS-RAW-DATA
@@ -97,7 +97,7 @@
 000000 CBV0001-CAS-LEN.
 000000     COMPUTE WS-LEN = FUNCTION LENGTH(
 000000             FUNCTION TRIM(WS-RAW-DATA TRAILING)
-000000                                     )
+000000                                     ).
 000000     IF WS-LEN < CST-MIN-LENGTH 
 000000     OR WS-LEN > CST-MAX-LENGTH
 000000         MOVE 'N'                TO CST-LOOP-FLG
@@ -116,7 +116,7 @@
 000000*            数値のみ入力判定
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-NUM.
-000000     MOVE WS-DATA                TO WS-TEMP
+000000     MOVE WS-DATA                TO WS-TEMP.
 000000     INSPECT WS-TEMP
 000000         REPLACING ALL '0' BY SPACE
 000000                   ALL '1' BY SPACE
@@ -127,7 +127,7 @@
 000000                   ALL '6' BY SPACE
 000000                   ALL '7' BY SPACE
 000000                   ALL '8' BY SPACE
-000000                   ALL '9' BY SPACE
+000000                   ALL '9' BY SPACE.
 000000     IF FUNCTION TRIM(WS-TEMP) = SPACES
 000000         MOVE WS-DATA            TO WS-NUM-VALUE
 000000     ELSE
