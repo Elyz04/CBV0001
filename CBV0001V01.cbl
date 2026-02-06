@@ -1,6 +1,6 @@
 000000*****************************************************************
 000000 IDENTIFICATION                  DIVISION.                            
-       PROGRAM-ID.                     CBV0001V99.
+000000 PROGRAM-ID.                     CBV0001V99.
        DATA                            DIVISION.
        WORKING-STORAGE                 SECTION.
 000000*/-------------------------------------------------------------/*
@@ -23,7 +23,7 @@
 000000*/-------------------------------------------------------------/*
        CBV0001-CTL-MAIN.
            PERFORM UNTIL CST-LOOP-FLG = 'Y'
-               MOVE 'Y'      TO CST-LOOP-FLG
+               MOVE 'Y'                 TO CST-LOOP-FLG
                DISPLAY '--------------------------------'
                DISPLAY 'INPUT NUMERIC FIELD (MAX 5 DIGIT)'
                ACCEPT WS-DATA
