@@ -46,26 +46,30 @@
 000000* OVERVIEW : メイン処理
 000000*/-------------------------------------------------------------*
 000000 CBV0001-CTL-MAIN.
+000000     MOVE 'N'                    TO CST-LOOP-FLG.
 000000     PERFORM UNTIL CST-LOOP-FLG = 'Y'
-000000         MOVE 'Y'                TO CST-LOOP-FLG
-000000         SET CST-SUCCESS         TO TRUE
-000000         DISPLAY ' Input alphabet value : '
+000000         MOVE 0                  TO CST-RESULT-CODE
+000000         DISPLAY ' INPUT ALPHABET VALUE : '
 000000         WITH NO ADVANCING
 000000         ACCEPT WS-RAW-DATA
-000000         IF CST-LOOP-FLG = 'Y'
-000000             PERFORM CBV0001-CAS-NUL
+000000         PERFORM CBV0001-CAS-NUL
+000000         IF NOT CST-SUCCESS
 000000             PERFORM CBV0001-DISP-RESULT
+000000             CONTINUE
 000000         END-IF
-000000         IF CST-LOOP-FLG = 'Y'
-000000             PERFORM CBV0001-CAS-LEN
+000000         PERFORM CBV0001-CAS-LEN
+000000         IF NOT CST-SUCCESS
 000000             PERFORM CBV0001-DISP-RESULT
+000000             CONTINUE
 000000         END-IF
-000000         IF CST-LOOP-FLG = 'Y'
-000000             PERFORM CBV0001-CAS-ALPHA
+000000         PERFORM CBV0001-CAS-ALPHA
+000000         IF NOT CST-SUCCESS
 000000             PERFORM CBV0001-DISP-RESULT
+000000             CONTINUE
 000000         END-IF
+000000         MOVE 'Y'                TO CST-LOOP-FLG
+000000         PERFORM CBV0001-DISP-RESULT
 000000     END-PERFORM.
-000000     PERFORM CBV0001-DISP-RESULT.
 000000     STOP RUN.
 000000*/-------------------------------------------------------------/*
 000000* MODULE   : CBV0001-CAS-NUL
@@ -74,7 +78,6 @@
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-NUL.
 000000     IF FUNCTION TRIM(WS-RAW-DATA) = SPACES
-000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-NUL         TO TRUE
 000000     END-IF.
 000000     EXIT.
@@ -85,10 +88,9 @@
 000000*            A～Z, a～z のみ許可
 000000*/-------------------------------------------------------------/*
 000000 CBV0001-CAS-ALPHA.
-000000     IF FUNCTION TRIM(WS-DATA) IS ALPHABETIC
+000000     IF WS-DATA IS ALPHABETIC
 000000         CONTINUE
 000000     ELSE
-000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-ALPHA       TO TRUE 
 000000     END-IF.
 000000     EXIT.
@@ -104,7 +106,6 @@
 000000                        ).
 000000     IF WS-LEN < CST-MIN-LENGTH
 000000     OR WS-LEN > CST-MAX-LENGTH
-000000         MOVE 'N'                TO CST-LOOP-FLG
 000000         SET CST-ERR-LEN         TO TRUE
 000000     ELSE
 000000         MOVE WS-RAW-DATA(1:CST-MAX-LENGTH)

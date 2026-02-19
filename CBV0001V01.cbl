@@ -54,7 +54,7 @@
 000000     PERFORM UNTIL CST-LOOP-FLG = 'Y'
 000000         MOVE 'Y'                TO CST-LOOP-FLG
 000000         SET CST-SUCCESS         TO TRUE
-000000         DISPLAY ' Input value (1 to 5 digits) : '
+000000         DISPLAY ' INPUT NUMERIC VALUE : '
 000000         WITH NO ADVANCING
 000000         ACCEPT WS-RAW-DATA
 000000         IF CST-LOOP-FLG = 'Y'
